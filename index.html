@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Tornado Websocket</title>
+</head>
+<script type="text/javascript">
+	var ws;
+    var host = window.location.host;
+	function onLoad(){
+		ws = new WebSocket('ws://'+host+'/ws'+"?col=col");
+		ws.onmessage = function(e){
+			document.getElementById("content").innerText = e.data;
+		}
+	}
+
+
+	function sendMsg(){
+        setInterval(function(){ws.send(document.getElementById('msg').value)},1000);
+        {#ws.send(document.getElementById('msg').value);#}
+	}
+</script>
+<body onload='onLoad();'>
+
+{% for item in items %}
+{#    <li>{{ escape(item) }}</li>#}
+    <ul> {{item}}
+        {% for col in items[item] %}
+            <li>{{escape(col)}}</li>
+        {% end %}</ul>
+{% end %}
+
+	Message to send:   <input type="text" id="msg" />
+	  <input type="button" onclick="sendMsg();" value="发送" />
+<h5 id="content"></h5>
+</body>
+
+
+
+！
